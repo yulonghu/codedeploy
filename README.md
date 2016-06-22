@@ -81,7 +81,7 @@ sh deploy-ot.sh clean 集群编号
 
 【联系我们】
 
-E-mail: fanjiapeng@360.cn
+Site: http://www.cdvphp.com/wiki/index.php?title=Cd_start
 QQ群: 26778603
 
 
