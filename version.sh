@@ -10,8 +10,8 @@
 DEPLOY_DIRECTORY=`dirname $0`
 . $DEPLOY_DIRECTORY/cecho.sh
 
-CODE_DEPLOY_VERSION='1.1.3'
-CODE_DEPLOY_UPTIME='2016/06/06'
+CODE_DEPLOY_VERSION='1.1.4'
+CODE_DEPLOY_UPTIME='2016/06/23'
 
 cecho -w "This is Codedeploy System."
 cecho -w "Version: " -g ${CODE_DEPLOY_VERSION}
