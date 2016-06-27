@@ -56,21 +56,56 @@ sh exec.sh "command" debug
 sh exec.sh "command"
 ```
 
-### 例子
+### 例子大全
 
 ##### （代码部署例子）
 
-git 模式部署代码例子:
+首先打开文件conf.sh, 找到变量 **SSH_USER**，填入公共账号；   
+继续找到变量 **project_name**、**qa**、**online**、**worker**、**local_web_path**、**remote_web_path**；（这些变量都在一起的）   
+```Bash
+[test@test01v ~/codedeploy]$ vim conf.sh
 
-注意: 建议把部署系统全部代码解压到 git 项目根目录<br />
-将分支dev推送到 [ qa1 ] 单台机器/集群: `sh deploy-qa.sh dev 1`<br />
-将分支dev推送到 [ qa2 ] 单台机器/集群: `sh deploy-qa.sh dev 2`<br />
+SSH_USER='public_user' # 部署代码, 用到的用户, 整个系统通用
 
-file 模式部署代码例子:
+number=1
+project_name[$number]="test.codedeploy.cn"
 
-注: file模式第一个参数必须是固定的 file<br />
-把/www/deploy.cn目录下的全部文件推送到 [ qa1 ] 单台机器/集群: `sh deploy-qa.sh file 1`<br />
-把/www/deploy.cn目录下的全部文件推送到 [ qa2 ] 单台机器/集群: `sh deploy-qa.sh file 2`<br />
+# 顾名思义, 这是线上机器了, 可以填写IP地址、hostname 多台机器以空格分割
+online[$number]=""
+
+# 顾名思义, 这是测试机器了，可以填写IP地址、hostname 多台机器以空格分割
+qa[$number]="test01v.add.net"
+
+# 顾名思义, 这是worker机器了，可以填写IP地址、hostname 多台机器以空格分割
+worker[$number]=""
+
+# 项目本地跟目录, 权限(wr)
+local_web_path[$number]="/home/test/codedeploy"
+
+# 项目部署到远端机器的目录, 前提这个目录有读写(wr)权限
+remote_web_path[$number]="/home/web/test/${project_name[1]}"
+```
+
+###### file模式 执行结果如下(分支模式同理，把“file”参数换成“git分支名称”)
+```Bash
+[test@test01v ~/codedeploy]$  sh deploy-qa.sh file 1
+
+[file模式] - [qa1 环境]
+
+本地配置 [1] 开始打包 ... ...
+本地配置 [1] 打包成功: /tmp/codedeploy_tmp/test/test.codedeploy.cn/codedeploy_test.codedeploy.cn_20160627153426.tar.gz
+本地配置 [1] 文件大小: 172K
+
+1. test01v.add.net => 代码上传中 ... ...
+1. test01v.add.net => 代码上传成功: /home/public_user/codedeploy_history/test.codedeploy.cn/codedeploy_test.codedeploy.cn_20160627153426.tar.gz
+1. test01v.add.net => 耗时: 150ms	[非常快]
+1. test01v.add.net => 开始解压远程代码包 ... ...
+1. test01v.add.net => 代码解压成功: /home/web/test/test.codedeploy.cn
+1. test01v.add.net => 清理远程过期的tar包
+
+
+[result] 机器数量: 1 全部部署成功!
+```
 
 ##### （多服务器批处理命令执行例子）
 
