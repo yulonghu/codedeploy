@@ -107,7 +107,7 @@ remote_web_path[$number]="/home/web/test/${project_name[1]}"
 [result] 机器数量: 1 全部部署成功!
 ```
 
-###### 释放占用的环境
+##### 释放占用的环境
 ```Bash
 [test@test01v ~/codedeploy]$  sh deploy-qa.sh clean 1
 
@@ -116,7 +116,7 @@ remote_web_path[$number]="/home/web/test/${project_name[1]}"
 1. test01v.add.net => 环境释放成功.
 ```
 
-###### 清理当前用户登录日志
+##### 清理当前用户登录日志
 ```Bash
 [test@test01v ~/codedeploy]$  sh clean-log.sh
 
