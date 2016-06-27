@@ -164,7 +164,7 @@ test02v.add.net
 
 ## 联系我们
 
-Site: http://www.cdvphp.com/wiki/index.php?title=Cd_start<br />
+[codedeploy 官网] (http://www.cdvphp.com/wiki/index.php?title=Cd_start)   
+[Team: 随时随地，手机免费上网] (http://wifi.360.cn/)   
 QQ群: 26778603
-
 
