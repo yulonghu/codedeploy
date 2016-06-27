@@ -17,48 +17,54 @@ conf.sh 脚本是deploy配置文件，其它文件不要去改动它。
 ## 命令手册
 
 git 模式用法: 
-
-sh deploy-qa.sh     分支名称 qa集群编号<br />
-sh deploy-ot.sh 分支名称 online集群编号<br />
-sh deploy-worker.sh 分支名称 worker集群编号<br />
+```Bash
+sh deploy-qa.sh     分支名称 qa集群编号
+sh deploy-ot.sh     分支名称 online集群编号
+sh deploy-worker.sh 分支名称 worker集群编号
+```
 
 file 模式用法: 
-
-sh deploy-qa.sh     file qa集群编号<br />
-sh deploy-ot.sh file online集群编号<br />
-sh deploy-worker.sh file worker集群编号<br />
+```Bash
+sh deploy-qa.sh     file qa集群编号
+sh deploy-ot.sh     file online集群编号
+sh deploy-worker.sh file worker集群编号
+```
 
 两种模式通用, 释放当前用户占用机器例子:
-
-sh deploy-qa.sh     clean qa集群编号<br />
-sh deploy-ot.sh clean online集群编号<br />
-sh deploy-worker.sh clean worker集群编号<br />
+```Bash
+sh deploy-qa.sh     clean qa集群编号
+sh deploy-ot.sh     clean online集群编号
+sh deploy-worker.sh clean worker集群编号
+```
 
 git 模式部署代码例子:
 
 注意: 建议把部署系统全部代码解压到 git 项目根目录<br />
-将分支dev推送到 [ qa1 ] 单台机器/集群: sh deploy-qa.sh dev 1<br />
-将分支dev推送到 [ qa2 ] 单台机器/集群: sh deploy-qa.sh dev 2<br />
+将分支dev推送到 [ qa1 ] 单台机器/集群: `sh deploy-qa.sh dev 1`<br />
+将分支dev推送到 [ qa2 ] 单台机器/集群: `sh deploy-qa.sh dev 2`<br />
 
 file 模式部署代码例子:
 
 注: file模式第一个参数必须是固定的 file<br />
-把/www/deploy.cn目录下的全部文件推送到 [ qa1 ] 单台机器/集群: sh deploy-qa.sh file 1<br />
-把/www/deploy.cn目录下的全部文件推送到 [ qa2 ] 单台机器/集群: sh deploy-qa.sh file 2<br />
+把/www/deploy.cn目录下的全部文件推送到 [ qa1 ] 单台机器/集群: `sh deploy-qa.sh file 1`<br />
+把/www/deploy.cn目录下的全部文件推送到 [ qa2 ] 单台机器/集群: `sh deploy-qa.sh file 2`<br />
 
 ## 释放对机器的独占模式，让其他同事可以部署代码。
-
-sh deploy-qa.sh     clean 集群编号<br />
-sh deploy-worker.sh clean 集群编号<br />
-sh deploy-ot.sh clean 集群编号<br />
+```Bash
+sh deploy-qa.sh     clean 集群编号
+sh deploy-worker.sh clean 集群编号
+sh deploy-ot.sh     clean 集群编号
+```
 
 ## 多服务器批处理命令执行
 
-Debug模式:   sh exec.sh "command" debug<br />
-非Dubug模式: sh exec.sh "command"<br />
+Debug模式:   `sh exec.sh "command" debug`<br />
+非Dubug模式: `sh exec.sh "command"`<br />
 
-只需要配置一个, 多个主机之间用空格分割: vim conf.sh<br />
-EXEC_HOSTS='test01v.add..net test02v.add.net'<br />
+只需要配置一个, 多个主机之间用空格分割: `vim conf.sh`<br />
+```Bash
+EXEC_HOSTS='test01v.add..net test02v.add.net'
+```
 
 ## 特别感谢
 
