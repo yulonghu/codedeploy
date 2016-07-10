@@ -32,7 +32,7 @@ if [ $# == 2 ] && [ "$params_1" == "file" ]; then
     current_method="file"
     cecho -n -hl "[file模式 + $CURRENT_ACTION 环境]" -n
 elif [ $# == 2 ] && [ `isInt $params_2` == 0 ] && [ "$params_1" == "clean" ]; then
-    cecho -n -hl "[git模式] - [${CURRENT_ACTION}${params_2} 环境] - [执行操作 ${params_1}]" -n
+    cecho -n -hl "[${CURRENT_ACTION}${params_2} 环境] - [执行操作 ${params_1}]" -n
     current_method="git"
 elif [ $# == 2 ] && [ `isInt $params_2` == 0 ]; then
     cecho -n -hl "[git模式] - [${CURRENT_ACTION}${params_2} 环境] - [推送分支 ${params_1}]" -n
@@ -127,7 +127,7 @@ cecho -w "本地配置 [$params_2] 开始打包 ... ..."
 if [ $current_method == "git" ]; then
     cd ${local_web_path[$params_2]} && git archive --format=tar.gz $params_1 -o $local_directory_package
 else
-    cd ${local_web_path[$params_2]} && tar -zcf $local_directory_package .
+    cd ${local_web_path[$params_2]} && tar -zcf $local_directory_package . ${exclude}
 fi
 
 if [ ! -s "$local_directory_package" ]; then
@@ -167,7 +167,7 @@ do
     cecho $no". " -c "$host" -w " => 耗时: " $(checkSpeed $end_time)
 
     cecho $no". " -c "$host" -w " => 开始解压远程代码包 ... ..."
-    $SSH $host "tar -zxmf $remote_directory_package ${exclude} -C ${remote_web_path[$params_2]}"
+    $SSH $host "tar -zxmf $remote_directory_package -C ${remote_web_path[$params_2]}"
     cecho $no". " -c "$host" -w " => 代码解压" -g "成功" -w ": ${remote_web_path[$params_2]}"
 
     checkExecResult $host

@@ -10,7 +10,7 @@
 # 关闭SSH-2 GSSAPI认证 & 关闭秘钥记录到known_hosts
 SSH="sudo -u ${SSH_USER} ssh -o GSSAPIAuthentication=no -o StrictHostKeyChecking=no"
 SCP="sudo -u ${SSH_USER} scp -o GSSAPIAuthentication=no -o StrictHostKeyChecking=no -C"
-RSYNC="rsync"
+RSYNC="sudo -u ${SSH_USER} rsync"
 
 # 所有用户: 保存本地临时文件的公共目录, 所有用户发布的代码都会保存在这里
 LOCAL_CODEDEPLOY_TMP_DIR="/tmp/codedeploy_tmp/${USER}"

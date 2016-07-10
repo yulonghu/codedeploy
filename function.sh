@@ -37,6 +37,15 @@ function showHelp()
     exit 0
 }
 
+# rsync模式帮助说明
+function showHelpRsync()
+{
+    cecho -n -hl "[HELP]" -n
+    cecho "rsync 模式用法:" -g " sh deploy-rsync.sh 集群编号"
+    cecho -n -r "注意: rsync模式常用于回归机同步代码到线上机器，不提供clean操作!" -n
+    exit 0
+}
+
 # 帮助说明 exec.sh
 function showHelpByExec()
 {
@@ -82,7 +91,7 @@ function getMsTime()
     echo $current_timestamp
 }
 
-# $?
+# 判断上一次执行的结果
 function checkExecResult()
 {
     if [ $? != 0 ]; then
@@ -115,7 +124,7 @@ function showMsg()
 # 判断整数
 function isInt()
 {
-    if [[ $1 != *[!0-9]* ]]; then
+    if [[ "$1" =~ ^[0-9]+$ ]]; then
         echo 0
     else
         echo -1
