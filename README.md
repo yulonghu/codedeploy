@@ -66,7 +66,7 @@ sh exec.sh "command"
 
 ## 例子大全
 
-##### （代码部署例子）
+##### （file模式，代码部署例子）
 
 首先打开文件conf.sh, 找到变量 **SSH_USER**，填入公共账号；   
 继续找到变量 **project_name**、**qa**、**online**、**worker**、**local_web_path**、**remote_web_path**；（这些变量都在一起的）   
@@ -115,16 +115,53 @@ remote_web_path[$number]="/home/web/test/${project_name[1]}"
 [result] 机器数量: 1 全部部署成功!
 ```
 
-##### 释放占用的环境
+##### （rsync模式，代码部署例子）
+
+首先打开文件conf.sh, 找到变量 **SSH_USER**，填入公共账号；   
+继续找到变量 **project_name**、**rsync**、**local_web_path**、**remote_web_path**；（这些变量都在一起的）   
+```Bash
+[test@test01v ~/codedeploy]$ vim conf.sh
+
+SSH_USER='public_user' # 部署代码, 用到的用户, 整个系统通用
+
+number=1
+project_name[$number]="test.codedeploy.cn"
+
+# 顾名思义, 这是回归机机器了，可以填写IP地址、hostname 多台机器以空格分割
+rsync[$number]="test01v.add.net"
+
+# 项目本地跟目录, 权限(wr)
+local_web_path[$number]="/home/test/codedeploy"
+
+# 项目部署到远端机器的目录, 前提这个目录有读写(wr)权限
+remote_web_path[$number]="/home/web/test/${project_name[1]}"
+```
+
+###### rsync模式 执行结果如下
+```Bash
+[test@test01v ~/codedeploy]$  sh deploy-rsync.sh 1
+
+[rsync模式] - [环境 1]
+
+1. test01v.add.net => 代码同步中 ... ...
+1. test01v.add.net => 代码同步成功: /home/web/test/test.codedeploy.cn
+1. test01v.add.net => 耗时: 183ms	[非常快]
+
+
+[result] 机器数量: 1 全部部署成功!
+
+```
+
+##### (释放占用的环境，只支持模式：file、git)
 ```Bash
 [test@test01v ~/codedeploy]$  sh deploy-qa.sh clean 1
 
-[git模式] - [qa1 环境] - [执行操作 clean]
+[qa1 环境] - [执行操作 clean]
 
 1. test01v.add.net => 环境释放成功.
 ```
 
-##### 清理当前用户登录日志
+##### (清理当前用户登录日志)
 ```Bash
 [test@test01v ~/codedeploy]$  sh clean-log.sh
 
