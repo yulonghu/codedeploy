@@ -85,7 +85,7 @@ do
 
     result=`echo $msg | grep -i 'error' | wc -L`
 
-    if [  -z $result ]; then
+    if [ "$result" == 0 ]; then
         cecho $no". " -c "$host" -w " => 代码同步" -g "成功" -w ": ${remote_web_path[$params_1]}/"
         cecho $no". " -c "$host" -w " => 耗时: " $(checkSpeed $end_time)
     else
