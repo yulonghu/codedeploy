@@ -47,6 +47,11 @@ sh deploy-worker.sh clean 集群编号
 sh deploy-ot.sh     clean 集群编号
 ```
 
+### 特殊模式：rsync 代码推送，用于回归机上执行，不提供 clean 方法
+```Bash
+sh deploy-rsync.sh 集群编号
+```
+
 #### 多服务器批处理命令执行
 
 ##### Debug模式
