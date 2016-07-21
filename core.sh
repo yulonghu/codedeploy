@@ -30,7 +30,7 @@ fi
 # 输出当前的模式
 if [ $# == 2 ] && [ "$params_1" == "file" ]; then
     current_method="file"
-    cecho -n -hl "[file模式 + $CURRENT_ACTION 环境]" -n
+    cecho -n -hl "[file模式 + ${CURRENT_ACTION}${params_2} 环境]" -n
 elif [ $# == 2 ] && [ `isInt $params_2` == 0 ] && [ "$params_1" == "clean" ]; then
     cecho -n -hl "[${CURRENT_ACTION}${params_2} 环境] - [执行操作 ${params_1}]" -n
     current_method="git"
@@ -167,7 +167,7 @@ do
     cecho $no". " -c "$host" -w " => 耗时: " $(checkSpeed $end_time)
 
     cecho $no". " -c "$host" -w " => 开始解压远程代码包 ... ..."
-    $SSH $host "tar -zxmf $remote_directory_package -C ${remote_web_path[$params_2]}"
+    $SSH $host "tar -zxmf $remote_directory_package ${exclude} -C ${remote_web_path[$params_2]}"
     cecho $no". " -c "$host" -w " => 代码解压" -g "成功" -w ": ${remote_web_path[$params_2]}"
 
     checkExecResult $host

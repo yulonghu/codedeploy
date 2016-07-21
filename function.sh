@@ -72,8 +72,8 @@ function showHelpByExec()
 function init()
 {
     mkdir -p $LOCAL_CODEDEPLOY_TMP_DIR;
-    chmod 733 $LOCAL_CODEDEPLOY_TMP_DIR 1>/dev/null 2>&1
-    chmod 733 $LOCAL_CODEDEPLOY_TMP_DIR/.. 1>/dev/null 2>&1
+    chmod 755 $LOCAL_CODEDEPLOY_TMP_DIR 1>/dev/null 2>&1
+    chmod 755 $LOCAL_CODEDEPLOY_TMP_DIR/.. 1>/dev/null 2>&1
 }
 
 # 获取当前系统时间
