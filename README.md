@@ -17,56 +17,56 @@ codedeploy 采用轮询推送，如果某集群有100台机器，在推送这集
 注：  
 集群代码部署, 建议配置好无密码登录(RSA密钥认证)。否则部署过程中每一台机器都需要手动输入用户(conf.sh中变量SSH_USER)密码。
 
-## 命令手册
+## 1. 命令手册
 
-#### git 模式部署代码
+#### 1.1 git 模式部署代码
 ```Bash
 sh deploy-qa.sh     分支名称 qa集群编号
 sh deploy-ot.sh     分支名称 online集群编号
 sh deploy-worker.sh 分支名称 worker集群编号
 ```
 
-#### file 模式部署代码
+#### 1.2 file 模式部署代码
 ```Bash
 sh deploy-qa.sh     file qa集群编号
 sh deploy-ot.sh     file online集群编号
 sh deploy-worker.sh file worker集群编号
 ```
 
-#### 两种模式通用, 释放当前用户占用机器例子
+#### 1.3 两种模式通用, 释放当前用户占用机器例子
 ```Bash
 sh deploy-qa.sh     clean qa集群编号
 sh deploy-ot.sh     clean online集群编号
 sh deploy-worker.sh clean worker集群编号
 ```
 
-#### 释放对机器的独占模式，让其他同事可以部署代码
+#### 1.4 释放对机器的独占模式，让其他同事可以部署代码
 ```Bash
 sh deploy-qa.sh     clean 集群编号
 sh deploy-worker.sh clean 集群编号
 sh deploy-ot.sh     clean 集群编号
 ```
 
-### 特殊模式：rsync 代码推送，用于回归机上执行，不提供 clean 方法
+### 1.5 特殊模式：rsync 代码推送，用于回归机上执行，不提供 clean 方法
 ```Bash
 sh deploy-rsync.sh 集群编号
 ```
 
 #### 多服务器批处理命令执行
 
-##### Debug模式
+##### 1.6 Debug模式
 ```Bash
 sh exec.sh "command" debug
 ```
 
-##### 非Dubug模式: 
+##### 1.7 非Dubug模式: 
 ```Bash
 sh exec.sh "command"
 ```
 
-## 例子大全
+## 2. 例子大全
 
-##### （file模式，代码部署例子）
+##### 2.1 （file模式，代码部署例子）
 
 首先打开文件conf.sh, 找到变量 **SSH_USER**，填入公共账号；   
 继续找到变量 **project_name**、**qa**、**online**、**worker**、**local_web_path**、**remote_web_path**；（这些变量都在一起的）   
@@ -94,7 +94,7 @@ local_web_path[$number]="/home/test/codedeploy"
 remote_web_path[$number]="/home/web/test/${project_name[1]}"
 ```
 
-###### file模式 执行结果如下(分支模式同理，把“file”参数换成“git分支名称”)
+###### 2.2 file模式 执行结果如下(分支模式同理，把“file”参数换成“git分支名称”)
 ```Bash
 [test@test01v ~/codedeploy]$  sh deploy-qa.sh file 1
 
@@ -115,7 +115,7 @@ remote_web_path[$number]="/home/web/test/${project_name[1]}"
 [result] 机器数量: 1 全部部署成功!
 ```
 
-##### （rsync模式，代码部署例子）
+##### 2.3 （rsync模式，代码部署例子）
 
 首先打开文件conf.sh, 找到变量 **SSH_USER**，填入公共账号；   
 继续找到变量 **project_name**、**rsync**、**local_web_path**、**remote_web_path**；（这些变量都在一起的）   
@@ -137,7 +137,7 @@ local_web_path[$number]="/home/test/codedeploy"
 remote_web_path[$number]="/home/web/test/${project_name[1]}"
 ```
 
-###### rsync模式 执行结果如下
+###### 2.4 rsync模式 执行结果如下
 ```Bash
 [test@test01v ~/codedeploy]$  sh deploy-rsync.sh 1
 
@@ -152,7 +152,7 @@ remote_web_path[$number]="/home/web/test/${project_name[1]}"
 
 ```
 
-##### (释放占用的环境，只支持模式：file、git)
+##### 2.5 (释放占用的环境，只支持模式：file、git)
 ```Bash
 [test@test01v ~/codedeploy]$  sh deploy-qa.sh clean 1
 
@@ -161,14 +161,14 @@ remote_web_path[$number]="/home/web/test/${project_name[1]}"
 1. test01v.add.net => 环境释放成功.
 ```
 
-##### (清理当前用户登录日志)
+##### 2.6 (清理当前用户登录日志)
 ```Bash
 [test@test01v ~/codedeploy]$  sh clean-log.sh
 
 clean log omplete!
 ```
 
-##### （多服务器批处理命令执行例子）
+##### 2.7 （多服务器批处理命令执行例子）
 
 首先打开文件conf.sh, 找到变量 **EXEC_HOSTS**，填入需要执行的主机名称，以可以填写IP地址；  
 继续找到变量 **SSH_USER**，填入公共账号；
@@ -203,11 +203,49 @@ test02v.add.net
 [result] 机器数量: 2 Done!
 ```
 
-## 特别感谢
+##### 2.8 集群与机器一对一怎么配置
+
+这里假设有 8 台 QA机器，而且需要一对一推送场景。也就是说代码只部署其中一台QA机器；
+
+```Bash
+[test@test01v ~/codedeploy]$  vim conf.sh
+
+number=8
+ 
+for ((i = 1; i <= $number; i++))
+do
+    project_name[$i]="wifi.360.cn"
+    online[$i]="" 
+    worker[$i]=""
+    local_web_path[$i]=`dirname $DEPLOY_DIRECTORY`
+    remote_web_path[$i]="/home/www/"${project_name[$i]}
+done
+ 
+qa[1]="test01v.hostname"
+qa[2]="test02v.hostname"
+qa[3]="test03v.hostname"
+qa[4]="test04v.hostname"
+qa[5]="test05v.hostname"
+qa[6]="test06v.hostname"
+qa[7]="test07v.hostname"
+qa[8]="test08v.hostname"
+```
+
+向 QA 1 服务器推送代码
+```Bash
+sh deploy/deploy-qa.sh master 1
+```
+
+向 QA 2 服务器推送代码，以此类推
+```Bash
+sh deploy/deploy-qa.sh master 2
+```
+
+## 3. 特别感谢
 
 蔡玉光
 
-## 联系我们
+## 4. 联系我们
 
 [codedeploy 官网] (http://www.cdvphp.com/wiki/index.php?title=Cd_start)   
 [Team: 随时随地，手机免费上网] (http://wifi.360.cn/)   
