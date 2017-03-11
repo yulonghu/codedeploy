@@ -176,6 +176,11 @@ do
         $SSH $host "echo $USER > $REMOTE_CODEDEPLOY_ALLUSER_LOG"
     fi
 
+    $SSH $host "sh ${remote_web_path[$params_2]}/project/autoload_builder.sh 1>/dev/null 2>&1"
+    if [ $? == 0 ]; then
+        cecho $no". " -c "$host" -w " => 执行远程autoload_builder脚本" -g "成功"
+    fi
+
     cecho $no". " -c "$host" -w " => 清理远程过期的tar包"
     $SSH $host "find $REMOTE_CODEDEPLOY_HISTORY_DIR/*.gz -type f -ctime +${TAR_KEEP_TIME} -delete"
 
