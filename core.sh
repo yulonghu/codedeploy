@@ -89,8 +89,7 @@ findDelCtime $LOCAL_CODEDEPLOY_TMP_DIR
 if [ "$params_1" == "clean" ]; then
     for host in $hosts
     do
-
-        no=`echo "$no + 1" | bc`
+        no=$(($no + 1))
         checkLastUpdateUser
 
         $SSH $host "echo "" > ${REMOTE_CODEDEPLOY_ALLUSER_LOG} 2>/dev/null"
@@ -145,8 +144,7 @@ remote_directory_package="${REMOTE_CODEDEPLOY_HISTORY_DIR}/${file_name}"
 no=0;
 for host in $hosts
 do
-    no=`echo "$no + 1" | bc`
-
+    no=$(($no + 1))
     checkLastUpdateUser
 
     if [ -z "$last_update_user" ]; then
